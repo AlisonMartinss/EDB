@@ -9,7 +9,7 @@ int buscaSequencial(int arr[], int Xesperado){
             return i;
         }}
 
-    return -1;    
+    return -1;
 }
 
 
