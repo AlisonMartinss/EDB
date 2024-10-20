@@ -3,35 +3,26 @@
 using namespace std;
 
 int busca0101(int arr[], int Xesperado, int tam){
+    int esquerda = arr[0];
+    int direita = arr[tam -1];
+    int media = (esquerda + direita) / 2;
+    while(1){
 
-    /*Retorna indice: */
-    int media = ((arr[0] + arr[tam]) / 2);
-    int i = (tam - 1);
-    int esq;
-    int dir;
+        if (esquerda > direita ){return -1;}
 
-    cout << "Media: " << (media) << endl;
+        else if (Xesperado == media){return media;}
 
-    for (int a = 0;a < tam;a++) {
-
-    if (Xesperado == media) {
-    return media;}
-
-    else if (Xesperado < media){
-        /*Indo para esquerda*/
-        esq = (tam - 1) - ((tam-1) - a);
-        dir = media - 1;
-        media = (dir + esq) / 2;
-        cout << "Nova media: " << media << endl;
+        else if (Xesperado < media) {
+            direita = media -1;
+            media = (esquerda + direita) / 2;
         }
-        
 
-    else if (Xesperado > media) {
-        esq = media + 1;
+        else if (Xesperado > media){
+            esquerda = media + 1;
+            media = (esquerda + direita) / 2;
         }
     }
 
-    return -47;
 }
 
 int main () {
