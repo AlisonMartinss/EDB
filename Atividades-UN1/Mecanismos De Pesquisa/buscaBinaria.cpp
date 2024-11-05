@@ -48,6 +48,8 @@ int buscaBinariaRecursiva(int arr[], int inicio, int fim, int x) {
 
 /*
 
+Busca elemento.
+
 Melhor Caso:
 
 O melhor caso ocorre quando o elemento que estamos procurando está exatamente no meio do array na primeira comparação.
@@ -75,11 +77,11 @@ a versão iterativa pode ser preferível para economizar espaço na pilha.
 */
 
 int main () {
-    int arr [] = {1,2,3,4,5,6,7,8,9,10};
+    int arr [] = {1,7,3,4,10,33,8,8,22,470};
     int tam = sizeof(arr)/sizeof(arr[0]);
 
-    cout << "Teste 01 - Esperado: 2,retornou " << (busca0101(arr,2,tam)) << endl;
-    cout << "Teste 02 - Esperado: 1,retornou " << (busca0101(arr,1,tam)) << endl;
+    cout << "Teste 01 - Esperado: 2,retornou " << (buscaBinariaRecursiva(arr,0,tam-1,10)) << endl;
+    cout << "Teste 02 - Esperado: 1,retornou " << (buscaBinariaRecursiva(arr,0,tam-1,1000)) << endl;
 
 
 }

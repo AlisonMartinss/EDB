@@ -45,6 +45,7 @@ O array se torna: {12, 22, 25, 64, 11}
 Iteração 4:
 
 chave = 11
+
 Todos os elementos são maiores que 11 e são movidos para a direita.
 O array se torna: {11, 12, 22, 25, 64}
 */

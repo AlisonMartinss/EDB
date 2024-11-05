@@ -24,6 +24,27 @@ void selectionSort (int v[],int tamanho) {
 }
 
 
+void SelectionSortTeste (int v[], int tamanho){
+
+    for (int i = 0; i < tamanho; i++) {
+    int menor = i;
+
+        for (int j = i + 1; j < tamanho; j++) {
+            if (v[menor] < v[j]){
+                menor = j;
+            }
+        }
+
+        if (i != menor){
+            int auxiliar = v[i];
+            v[i] = v[menor];
+            v[menor] = auxiliar;
+        }
+    }
+
+}
+
+
 /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
 
