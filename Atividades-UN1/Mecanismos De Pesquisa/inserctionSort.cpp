@@ -4,13 +4,17 @@ using namespace std;
 
 void insertionSort (int v[], int tamanho) {
 
+    /*
+    Nos baseamos na ideia de " O anterior é maior que o posterior?"
+    */
+
     for (int i = 1; i < tamanho; i++){
         int novo  = v[i];
         int j = i - 1;
 
         while (j >= 0 && novo < v[j]){
       
-             v[j+1] = v[j]; // A partir daqui estamos reefinindo 'Novo';
+             v[j+1] = v[j];
              j = j - 1;
         }
 
@@ -19,7 +23,11 @@ void insertionSort (int v[], int tamanho) {
 
 }
 
+
+
 /*
+
+- Ordena um Array
 
 Considere o array: {64, 25, 12, 22, 11}
 

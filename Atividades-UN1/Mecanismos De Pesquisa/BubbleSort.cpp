@@ -5,7 +5,13 @@ using namespace std;
 /* 
 - O que faz? Organiza Array 
 - Pior Caso (n^2) - Ordem decrecente
+
+O pior caso ocorre quando a lista está em ordem inversa, ou seja, em ordem decrescente.
+
 - Melhor Caso (n) - Array já está ordenado
+
+O melhor caso ocorre quando a lista já está ordenada em ordem crescente. Nesse cenário,
+o algoritmo apenas verifica se cada elemento está no lugar correto, e não realiza trocas.
 */
 
 void BubbleSort (int V[],int tamanho) {
@@ -18,9 +24,7 @@ void BubbleSort (int V[],int tamanho) {
                 V[j] = a;
             }
         }
-    }
-
-}
+    }}
 
 
 
