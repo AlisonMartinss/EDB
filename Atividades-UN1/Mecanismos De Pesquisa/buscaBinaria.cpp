@@ -82,6 +82,10 @@ int main () {
 
     cout << "Teste 01 - Esperado: 2,retornou " << (buscaBinariaRecursiva(arr,0,tam-1,10)) << endl;
     cout << "Teste 02 - Esperado: 1,retornou " << (buscaBinariaRecursiva(arr,0,tam-1,1000)) << endl;
+/*
 
+zip -r buscaBinariaTestagem.zip buscaBinaria
+
+*/
 
 }
