@@ -27,8 +27,6 @@ public:
         
         head->proximo = head; // ?
         head = novoNo;
-
-
     }
 
     // Meotodo para exibir lista
@@ -42,12 +40,24 @@ public:
         std::cout << "nullptr" << std::endl;
     }
 
-    
+    // Método para remover o primeiro nó
 
+    void removerInicio () {
+        if (head==nullptr){
+            std::cout << "A lista está vazia" << std::endl;
+            return;
+        }
 
+        No* temp = head; // olha dps
+        head = head->proximo;
+        delete temp; // olha dps
+    }
 
-
-
+    ~listaEncadeada(){ // Da uma olhada dps
+        while (head!= nullptr){
+            removerInicio();
+        }
+    }
 };
 
 
