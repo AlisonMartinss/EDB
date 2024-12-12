@@ -22,16 +22,20 @@ public:
 
     //Metodo para inserir um No no inicio da lista
     void addInicio(std::string valor){
-        No* novoNo = new  No(valor);
 
-        
-        head->proximo = head; // ?
-        head = novoNo;
+        // Primeiro defina para onde vão os idosos. Faça os devidos referenciamentos dos nós já existentes.
+        // De emprego aos novos. Faça o devido referenciamento ao novo no criado (colocando o 'head' para apontar p/ o novo 'No').
+
+        No* novoNo = new No(valor);
+        novoNo->proximo = head;
+        head = novoNo;          
     }
 
     // Meotodo para exibir lista
     void exibirLista () {
-        No* atual  = head;
+
+        // Quando escrevemos isso dessa forma,  'atual' esta assumindo 'head', ou seja, englobando todos os seus aspectos. 
+        No* atual  = head; 
         while(atual != nullptr){
             std::cout << atual->conteudo << "->";
             atual = atual->proximo;
@@ -43,14 +47,25 @@ public:
     // Método para remover o primeiro nó
 
     void removerInicio () {
+        // - Fazer referenciamento reserva do espaço que se pretende apagar.
+        // - Atualizar "No".
+        // - Executar ação deletar.
+
+
+
         if (head==nullptr){
             std::cout << "A lista está vazia" << std::endl;
             return;
         }
+        
+        /*Aqui estamos lidando com os ponteiros que inicialmente é do head.
+        Mas isso se torna possivel pq agora temos um novo 'No' apontando para o mesmo espaço de memoria.*/
+        No* temp = head;
 
-        No* temp = head; // olha dps
+        /*Antes de deixar o 'No' head apontando para o vazio. Fazemos ele apontar para o proximo elemento*/
         head = head->proximo;
-        delete temp; // olha dps
+
+        delete temp;
     }
 
     ~listaEncadeada(){ // Da uma olhada dps
