@@ -57,12 +57,12 @@ public:
             std::cout << "A lista está vazia" << std::endl;
             return;
         }
-        
-        /*Aqui estamos lidando com os ponteiros que inicialmente é do head.
-        Mas isso se torna possivel pq agora temos um novo 'No' apontando para o mesmo espaço de memoria.*/
+
+        /*Aqui estamos lidando com os ponteiros que inicialmente é do head. Que agora podem ser apagados,
+        Isso se torna possivel pq agora temos um novo 'No' apontando para o mesmo espaço de memoria. Então perceba a versatilidade. */
         No* temp = head;
 
-        /*Antes de deixar o 'No' head apontando para o vazio. Fazemos ele apontar para o proximo elemento*/
+        /*Antes de deixar o 'No' head apontando para o 'vazio'. Fazemos ele apontar para o proximo elemento*/
         head = head->proximo;
 
         delete temp;
