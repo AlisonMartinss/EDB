@@ -20,18 +20,19 @@ TabelaHash::TabelaHash(size_t tamanho) : tamanho(tamanho), quantidade(0) {
 }
 
 void TabelaHash::iniciar() {
-    elementos = new std::pair<std::string, std::string>*[this->tamanho]();
-    for (std::size_t i = 0; i < tamanho; ++i) {
+    elementos = new pair<string, string>*[this->tamanho]();
+    for (size_t i = 0; i < tamanho; ++i) {
         assert( elementos[i] == nullptr); // assegurando que todas posições foram inicializadas com nullptr
     }
 }
 
 TabelaHash::~TabelaHash() {
-    for (std::size_t i = 0; i < tamanho; ++i) {
+    for (size_t i = 0; i < tamanho; ++i) {
         if (elementos[i] != nullptr && elementos[i] != REMOVIDO) {
             delete elementos[i];
         }
     }
+    delete[] elementos;
 }
 
 /**
@@ -45,45 +46,8 @@ TabelaHash::~TabelaHash() {
  * @return true Se a inserção ou atualização foi bem-sucedida.
  * @return false Se a tabela estava cheia e a inserção falhou.
  */
-bool TabelaHash::inserir(const std::string& chave, const std::string& valor) {    
-   auto hash = this->hash(chave);
-   int posRemovido = -1;
-   for (size_t d = 0; d < tamanho; d++){
-     auto indice = (hash+d)%tamanho;
-     auto elemento = this->elementos[indice];
-
-   if (elemento == nullptr) {
-    // INSERIMOS EM REMOVIDO / NULL
-    auto novo = new pair<string,string>(chave,valor);
-    if (posRemovido != -1){
-        this->elementos[posRemovido] = novo;
-    }
-    else {
-        this->elementos[indice] = novo;
-    }
-    ++quantidade;
-    return true;
-   }
-   else if (elemento ==  REMOVIDO){
-    //Registramos o endereço
-    if (posRemovido == -1){
-      posRemovido = indice;
-    }
-   }
-   else if (elemento->first == chave)
-     elemento->second = valor;
-     return true;
-   }
-
-   if (posRemovido != -1){
-    auto novo = new pair <string,string>(chave , valor);
-    this->elementos[posRemovido] = novo;
-    this->quantidade++;
-    return true;
-   }
-
-   else {return false;}
-
+bool TabelaHash::inserir(const string& chave, const string& valor) {    
+    throw "ERRO: Método inserir ainda não foi implementado.";
 }
 
 /**
@@ -92,29 +56,10 @@ bool TabelaHash::inserir(const std::string& chave, const std::string& valor) {
  * Procura o par chave-valor correspondente à chave fornecida.
  * 
  * @param chave A chave a ser buscada.
- * @return std::pair<std::string, std::string>* Um ponteiro para o par chave-valor encontrado, ou nullptr se a chave não for encontrada.
+ * @return pair<string, string>* Um ponteiro para o par chave-valor encontrado, ou nullptr se a chave não for encontrada.
  */
-std::pair<std::string, std::string>* TabelaHash::buscar(const std::string& chave) const {
-    
-    auto hash =  this->hash(chave);
-
-    for (size_t d = 0; d < tamanho; d++){
-        auto indice = (hash + d) % tamanho;
-        auto elemento = this->elementos[indice];
-
-        if (elemento == nullptr){
-            return nullptr;
-        }
-        else if (elemento == REMOVIDO) {
-            continue;
-        }
-
-        else if (elemento->first == chave){
-            return elemento;
-        }  
-    } 
-
-    return nullptr;
+pair<string, string>* TabelaHash::buscar(const string& chave) const {
+    throw "ERRO: Método buscar ainda não foi implementado.";
 }
 
 /**
@@ -126,31 +71,65 @@ std::pair<std::string, std::string>* TabelaHash::buscar(const std::string& chave
  * @return true Se a remoção foi bem-sucedida.
  * @return false Se a chave não foi encontrada na tabela.
  */
-bool TabelaHash::remover(const std::string& chave) {
-    auto hash = this->hash(chave);
-    for (size_t d= 0; d < tamanho;d++){
-        auto indice = (hash+d)% tamanho;
-        auto elemento = this->elementos[indice]; 
-        if (elemento == nullptr){
-            return false;
-        }
-        else if (elemento == REMOVIDO){continue;}
-        else if (elemento->first == chave){ 
-            delete elemento;
-            this->elementos[indice] = REMOVIDO;
-            -- quantidade;
-            return true;
+bool TabelaHash::remover(const string& chave) {
+    throw "ERRO: Método remover ainda não foi implementado.";
+}
+
+/**
+ * @brief Redimensiona o array interno da tabela hash.
+ * 
+ * @param tamanhoNovo O tamanho do novo array a ser alocado.
+ */
+void TabelaHash::redimensionar(std::size_t tamanhoNovo){
+    auto tamanhoVelho = this->tamanho;
+    auto arrayVelho = this->elementos;
+
+    auto arrayNovo = new pair<string,string>*[tamanhoNovo]();
+    this->tamanho  = tamanhoNovo;
+
+    for (size_t i = 0;i < tamanhoVelho; i++){ // Esse primeiro laço percorre o array velho
+        auto posAtual = arrayVelho[i];
+
+        if (posAtual != nullptr && posAtual != REMOVIDO){ // Garante que o indice em questão tem um elemento valido
+            auto hash = this->hash(posAtual->first);
+            for (size_t d = 0; d < tamanhoNovo; d++){
+                auto indice = (hash + d)% tamanhoNovo;
+
+                if (arrayNovo[indice] == nullptr){
+                    arrayNovo[indice] == posAtual;
+                    break;
+
+                }
+            }
+            
         }
     }
 
-    return false;
+    this->elementos = arrayNovo;
+    delete[] arrayVelho;   
+
 }
 
-std::size_t TabelaHash::getTamanho() const {
+float TabelaHash::fatorDeCarga(){
+    return (float)quantidade / (float)tamanho;
+}
+
+void TabelaHash::aumentar(){
+    size_t tamanhoNovo = 2*this->getTamanho() + 1;
+    this->redimensionar(tamanhoNovo);
+}
+
+void TabelaHash::diminuir(){
+    size_t metadeTamanho = this->getTamanho()/2;
+    size_t tamanhoNovo = metadeTamanho % 2 == 0 ? metadeTamanho + 1 : metadeTamanho;
+    this->redimensionar(tamanhoNovo);
+}
+
+size_t TabelaHash::getTamanho() const {
     return tamanho;
 }
 
-std::size_t TabelaHash::getQuantidade() const {
+size_t TabelaHash::getQuantidade() const {
     return quantidade;
 }
 
@@ -163,13 +142,13 @@ bool TabelaHash::cheia() const {
 }
 
 void TabelaHash::imprimir() const {
-    for (std::size_t i = 0; i < tamanho; ++i) {
+    for (size_t i = 0; i < tamanho; ++i) {
         if (elementos[i] == REMOVIDO) {
-            std::cout << i << ": REMOVIDO" << std::endl;
+            cout << i << ": REMOVIDO" << endl;
         } else if (elementos[i] != nullptr) {
-            std::cout << i << ": " << elementos[i]->first << ":" << elementos[i]->second << std::endl;
+            cout << i << ": " << elementos[i]->first << ":" << elementos[i]->second << endl;
         } else {
-            std::cout << i << ": []" << std::endl;
+            cout << i << ": []" << endl;
         }
     }
 }
@@ -180,10 +159,10 @@ void TabelaHash::imprimir() const {
  * Calcula o valor de hash da chave fornecida usando uma função simples de soma dos caracteres.
  * 
  * @param chave A chave para a qual calcular o valor de hash.
- * @return std::size_t O valor de hash calculado.
+ * @return size_t O valor de hash calculado.
  */
-std::size_t TabelaHash::hashValue(const std::string& chave) const {
-    std::size_t x = 0;
+size_t TabelaHash::hashValue(const string& chave) const {
+    size_t x = 0;
     for (char c : chave) {
         x += c;
     }
@@ -196,9 +175,9 @@ std::size_t TabelaHash::hashValue(const std::string& chave) const {
  * Usa o valor de hash calculado para determinar o índice correspondente na tabela hash.
  * 
  * @param chave A chave para a qual calcular o índice.
- * @return std::size_t O índice na tabela hash para a chave fornecida.
+ * @return size_t O índice na tabela hash para a chave fornecida.
  */
-std::size_t TabelaHash::hash(const std::string& chave) const {
+size_t TabelaHash::hash(const string& chave) const {
     return hashValue(chave) % tamanho;
 }
 
@@ -212,9 +191,9 @@ std::size_t TabelaHash::hash(const std::string& chave) const {
  * @return false Se invariante da tabela hash não foi satisfeita, isto é, se houver chaves duplicadas na tabela hash.
  */
 bool TabelaHash::invariante() const {
-    std::unordered_set<std::string> chaves; 
+    unordered_set<string> chaves; 
 
-    for (std::size_t i = 0; i < tamanho; ++i) {
+    for (size_t i = 0; i < tamanho; ++i) {
         auto elemento = elementos[i];
         if (elemento != nullptr && elemento != REMOVIDO) {
             auto chave = elemento->first;
